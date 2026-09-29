@@ -116,4 +116,6 @@ npx skills add chen1pengvincent/two-way-steelman
 
 ## 许可
 
-当前未附许可证文件，作者保留全部权利。若希望开放他人复用，可自行补充 LICENSE 文件。
+本项目以 [MIT License](LICENSE) 发布。
+
+原始提示词版权归原作者数字生命卡兹克所有，已获作者授权随本仓库以 MIT License 发布。
