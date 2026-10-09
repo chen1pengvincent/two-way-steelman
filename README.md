@@ -119,3 +119,33 @@ npx skills add chen1pengvincent/two-way-steelman
 本项目以 [MIT License](LICENSE) 发布。
 
 原始提示词版权归原作者数字生命卡兹克所有，已获作者授权随本仓库以 MIT License 发布。
+
+
+## Agensi 技术打包（维护者）
+
+以下命令在本仓库 checkout 中运行，需要 Python 3.9+ 和 `tools/requirements.txt` 中的 PyYAML；这是打包工具依赖，技能使用本身无需 Python、API 密钥或网络连接。
+
+```bash
+python3 -m pip install -r tools/requirements.txt
+python3 tools/package_agensi.py --check
+python3 -m unittest discover -s tests -v
+python3 tools/package_agensi.py --layout folder
+python3 tools/package_agensi.py --layout zip-root
+python3 tools/package_agensi.py --layout folder --verify dist/two-way-steelman-agensi-folder.zip
+python3 tools/package_agensi.py --layout zip-root --verify dist/two-way-steelman-agensi-zip-root.zip
+```
+
+核对日期 2026-10-09。[创作者清单](https://www.agensi.io/learn/skill-md-creator-checklist)及[扫描指南](https://www.agensi.io/learn/how-agensi-security-scan-works)明确要求 ZIP 有一个以技能命名的顶层目录，`SKILL.md` 位于该目录下，并将直接置于 ZIP 根部列为错误；Joeri 邮件的 ZIP root 要求与此有差异。[销售指南](https://www.agensi.io/learn/how-to-sell-skills-on-agensi)及[条款 §6.2](https://www.agensi.io/terms)只说明 ZIP 应包含有效 `SKILL.md`，没有消解这个冲突。因此保留两个候选，实际提交布局待对方明确确认：
+
+| 候选 ZIP | 用途与内容布局 |
+| --- | --- |
+| `dist/two-way-steelman-agensi-folder.zip` | 公开文档候选，默认构建；四个文件均位于 `two-way-steelman/` 下 |
+| `dist/two-way-steelman-agensi-zip-root.zip` | 邮件要求候选；`SKILL.md`、`README.md`、`LICENSE` 直接位于 ZIP 根部，另含 `examples/decision-dialogue.md` |
+
+两包仅路径不同，文件内容完全相同；均保留原 `SKILL.md` 和 MIT `LICENSE`。目录版解压到 Agent 的 skills 父目录；根目录版解压到预先创建的 `two-way-steelman` 技能目录。[使用与人工验收示例](examples/decision-dialogue.md)提供输入和预期行为，属于辅助文档；它不是实际模型运行记录，技能运行不依赖读取它。
+
+工具和测试只留在源码仓库。打包采用固定顺序和 ZIP 元数据，同一份源码、同一布局生成相同字节，并输出文件及 ZIP 的 SHA-256；已有不同内容的输出不会被覆盖。本地检查验证 YAML、必需字段、名称、描述长度、原文一致性、许可文件、相对链接、文本类型和 ZIP 完整性，并对安全相关文本模式做有限筛查、列出外部 URL。文档 URL 用于来源与安装说明，技能正文没有外部调用。
+
+名称 16 字符、描述 641 字符符合 [Agent Skills 规范](https://agentskills.io/specification)的长度与字段要求。原双语描述及正文完全保留；[格式说明](https://www.agensi.io/learn/skill-md-format-reference)中的描述一至三句为待人工评估的写作指导，本次不为包装重写触发逻辑。创作者清单还建议真实安装、在至少两个 Agent 中测试及其他使用者独立体验；这些行为验收须独立记录，打包测试不能替代。
+
+**候选包通过本地验证不等于平台批准**：Agensi 不公开完整检测规则和具体文件大小/数量阈值，实际布局须先确认，提交后仍须通过平台安全扫描及人工审核。本工具不上传、不设置价格、不接受协议，也不处理开户或结算。仓库保持 MIT 许可；开源授权与平台买方许可的兼容性、结算和下架安排需另行确认，不能通过打包解决。
